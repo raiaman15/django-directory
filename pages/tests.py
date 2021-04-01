@@ -16,7 +16,7 @@ class CompanyPageTests(SimpleTestCase):
         self.assertTemplateUsed(self.response, 'pages/company.html')
 
     def test_companypage_contains_correct_html(self):
-        self.assertContains(self.response, 'Company Details Page')
+        self.assertContains(self.response, 'TeachDirMakers')
 
     def test_companypage_does_not_contain_incorrect_html(self):
         self.assertNotContains(
@@ -43,7 +43,7 @@ class ProductPageTests(SimpleTestCase):
         self.assertTemplateUsed(self.response, 'pages/product.html')
 
     def test_productpage_contains_correct_html(self):
-        self.assertContains(self.response, 'Directory')
+        self.assertContains(self.response, 'TeachDir')
 
     def test_productpage_does_not_contain_incorrect_html(self):
         self.assertNotContains(

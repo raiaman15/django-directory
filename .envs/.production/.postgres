@@ -1,0 +1,3 @@
+POSTGRES_DB=product_name_db
+POSTGRES_USER=product_name_db_user
+POSTGRES_PASSWORD=product#name#db#user#password

@@ -1,0 +1,54 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% load static %}
+
+{% block title %} Error 400 - Bad Request {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} login-page {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="login-box">
+
+    <div class="login-logo">
+        <a target="_blank" href=""><b>{{PRODUCT_NAME}}</b> <span style="font-size: x-small;">
+                by
+                {{COMPANY_NAME}}</span></a>
+    </div>
+
+    <!-- /.login-logo -->
+    <div class="card">
+
+        <div class="card-body login-card-body">
+
+            <h5 class="login-box-msg">
+                Error 400 - Bad Request
+            </h5>
+            <p class="login-box-msg">
+                Oops! It seems like there is some issue.<br />
+                Try to clear your cache and reload the page.<br />
+                Contact {{PRODUCT_NAME}} Support Team for further help.
+            </p>
+
+            <br />
+            <div class="text-center">
+                &copy;
+                <a target="_blank" href="{% url 'product_page' %}">{{PRODUCT_NAME}}</a>
+                - developed by <a target="_blank" rel="noopener noreferrer"
+                    href="{% url 'company_page' %}">{{COMPANY_NAME}}</a>.
+            </div>
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

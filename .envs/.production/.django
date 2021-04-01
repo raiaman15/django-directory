@@ -1,0 +1,19 @@
+# WARNING: Set True ONLY if trying to mimic production setup locally
+MIMIC_PRODUCTION_LOCALLY=True
+
+SECRET_KEY=_3j3@&fvzdf*4z00qp&iv8g@x*)rfygz4t-35_ri0llmk$qh)a
+DJANGO_ALLOWED_HOSTS=0.0.0.0 test.infroid.com
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=product_name_db
+SQL_USER=product_name_db_user
+SQL_PASSWORD=product#name#db#user#password
+SQL_HOST=postgres_production
+SQL_PORT=5432
+
+PRODUCT_NAME=YourProjectName
+COMPANY_NAME=YourCompanyName
+
+WEBMASTER_NAME=Webmaster
+WEBMASTER_EMAIL=webmaster@test.infroid.com
+ADMINISTRATOR_NAME=Administrator
+ADMINISTRATOR_EMAIL=administrator@test.infroid.com

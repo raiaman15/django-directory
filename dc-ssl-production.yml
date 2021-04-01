@@ -1,0 +1,47 @@
+version: "3.8"
+   
+services:
+  
+  nginx_ssl:
+    container_name: nginx_ssl
+    build: 
+      context: .
+      dockerfile: ./compose/ssl-production/nginx/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - static_volume:/app/files-static
+      - media_volume:/app/files-media
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - django_production
+  
+  django_production:
+    container_name: django_production
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    command: bash -c 'while !</dev/tcp/postgres_production/5432; do sleep 1; echo "Waiting for Postgres" ; done; /start.sh'
+    volumes:
+      - static_volume:/app/files-static
+      - media_volume:/app/files-media
+    expose:
+      - 8000
+    env_file:
+      - ./.envs/.production/.django
+    depends_on:
+      - postgres_production
+  
+  postgres_production:
+    container_name: postgres_production
+    image: postgres
+    volumes:
+      - postgres_production_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.envs/.production/.postgres
+
+volumes:
+  postgres_production_data:
+  static_volume:
+  media_volume:

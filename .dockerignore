@@ -1,0 +1,9 @@
+.*
+Dockerfile*
+dc-*
+README.md
+LICENSE
+.vscode
+!.coveragerc
+!.env
+!.pylintrc

@@ -1,0 +1,333 @@
+{% extends "layouts/base.html" %}
+
+{% load static %}
+
+{% block title %} Company {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini layout-fixed {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Company Details Page</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <section class="col-lg-6 connectedSortable">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="card elevation-2">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-school mr-1"></i>
+                                Today's Schedule
+                            </h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Minimize">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool btn-fullscreen" title="Maximize">
+                                    <i class="fas fa-expand-arrows-alt"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Close">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                        </div><!-- /.card-header -->
+                        <!-- Ongoing Live Class -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12">
+                                    <div class="small-box bg-danger elevation-1">
+                                        <div class="inner">
+                                            <h3>10:00 AM</h3>
+                                            <p>Data Science & Algorithms - II <br />For 12th - A</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <a href="#" class="small-box-footer">
+                                            Join Ongoing Live Class <i class="fas fa-play-circle"></i>
+                                        </a>
+                                    </div>
+                                    <!-- /.info-box -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.Ongoing Live Class -->
+
+                            <table class="table table-sm table-bordered elevation-1">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 80px">Time</th>
+                                        <th>Subject</th>
+                                        <th>Audience</th>
+                                        <th style="width: 40px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-gray">
+                                        <td>9:00 AM</td>
+                                        <td>Data Science & Algorithms - I</td>
+                                        <td>CS - A</td>
+                                        <td class="text-center">
+                                            <i class="fas fa-play-circle text-success" title="Join this Live Class"></i>
+                                            &nbsp;
+                                            <i class="fas fa-times-circle text-danger"
+                                                title="Cancel this Live Class"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10:00 AM</td>
+                                        <td>Data Science & Algorithms - II</td>
+                                        <td>CS - A</td>
+                                        <td class="text-center">
+                                            <i class="fas fa-play-circle text-success" title="Join this Live Class"></i>
+                                            &nbsp;
+                                            <i class="fas fa-times-circle text-danger"
+                                                title="Cancel this Live Class"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>11:00 AM</td>
+                                        <td>Statistical Analysis - II</td>
+                                        <td>EC - C</td>
+                                        <td class="text-center">
+                                            <i class="fas fa-play-circle text-success" title="Join this Live Class"></i>
+                                            &nbsp;
+                                            <i class="fas fa-times-circle text-danger"
+                                                title="Cancel this Live Class"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.card-body -->
+                        <!-- Help Text -->
+                        <div class="card-footer">
+                            For above classes, the attendance section shows the following:<br />
+                            <i class="fas fa-play-circle text-success"></i> button to join the live class<br />
+                            <i class="fas fa-times-circle text-danger"></i> button to cancel the live class
+                        </div>
+                        <!-- /.Help Text -->
+                    </div>
+                    <!-- /.card -->
+                </section>
+                <!-- /.Left col -->
+                <!-- right col (We are only adding the ID to make the widgets sortable)-->
+                <section class="col-lg-6 connectedSortable">
+
+                    <!-- Notice Board -->
+                    <div class="card direct-chat direct-chat-danger elevation-2">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Notice Board
+                            </h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Minimize">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool btn-fullscreen" title="Maximize">
+                                    <i class="fas fa-expand-arrows-alt"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Close">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <!-- Conversations are loaded here -->
+                            <div class="direct-chat-messages">
+                                <!-- Message to the right -->
+                                <div class="direct-chat-msg right">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{% static 'shiksha/img/user1-128x128.jpg' %}"
+                                        alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        You better believe it!
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+
+                                <!-- Message to the right -->
+                                <div class="direct-chat-msg right">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                        <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{% static 'shiksha/img/user1-128x128.jpg' %}"
+                                        alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        I would love to.
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+
+                            </div>
+                            <!--/.direct-chat-messages-->
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!--/.Notice Board -->
+
+                    <!-- Institutional Faculty Room Chat -->
+                    <div class="card direct-chat direct-chat-danger collapsed-card elevation-2">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-user-tie mr-1"></i>
+                                Faculty Room
+                            </h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool btn-fullscreen" title="Fullscreen">
+                                    <i class="fas fa-expand-arrows-alt"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <!-- Conversations are loaded here -->
+                            <div class="direct-chat-messages">
+                                <!-- Message. Default to the left -->
+                                <div class="direct-chat-msg">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                        <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{% static 'shiksha/img/user1-128x128.jpg' %}"
+                                        alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        Is this template really for free? That's unbelievable!
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+
+                                <!-- Message to the right -->
+                                <div class="direct-chat-msg right">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{% static 'shiksha/img/user1-128x128.jpg' %}"
+                                        alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        You better believe it!
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+
+                                <!-- Message. Default to the left -->
+                                <div class="direct-chat-msg">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                        <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{% static 'shiksha/img/user1-128x128.jpg' %}"
+                                        alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        Working with AdminLTE on a great new app! Wanna join?
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+
+                                <!-- Message to the right -->
+                                <div class="direct-chat-msg right">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                        <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{% static 'shiksha/img/user1-128x128.jpg' %}"
+                                        alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        I would love to.
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+
+                            </div>
+                            <!--/.direct-chat-messages-->
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <form action="#" method="post">
+                                <div class="input-group">
+                                    <input type="text" name="message" placeholder="Type Message ..."
+                                        class="form-control">
+                                    <span class="input-group-append">
+                                        <button type="button" class="btn bg-danger">Send</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card-footer-->
+                    </div>
+                    <!--/.Institutional Faculty Room Chat -->
+                </section>
+                <!-- right col -->
+            </div>
+            <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

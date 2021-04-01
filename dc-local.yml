@@ -1,0 +1,31 @@
+version: "3.8"
+   
+services:
+
+  django:
+    container_name: django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; echo "Waiting for Postgres" ; done; /start.sh'
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+      - 9001:9001
+    env_file:
+      - ./.envs/.local/.django
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    env_file:
+      - ./.envs/.local/.postgres
+volumes:
+  postgres_data:

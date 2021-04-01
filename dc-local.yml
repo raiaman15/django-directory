@@ -11,8 +11,8 @@ services:
     volumes:
       - .:/app
     ports:
-      - 8000:8000
-      - 9001:9001
+      - 8000:8000 # HOST:CONTAINER
+      - 9005:9001 # HOST:CONTAINER
     env_file:
       - ./.envs/.local/.django
     depends_on:

@@ -10,8 +10,8 @@ SQL_PASSWORD=product#name#db#user#password
 SQL_HOST=postgres_production
 SQL_PORT=5432
 
-PRODUCT_NAME=YourProjectName
-COMPANY_NAME=YourCompanyName
+PRODUCT_NAME=Directory
+COMPANY_NAME=DirectoryMakers
 
 WEBMASTER_NAME=Webmaster
 WEBMASTER_EMAIL=webmaster@test.infroid.com

@@ -43,14 +43,14 @@ class ProductPageTests(SimpleTestCase):
         self.assertTemplateUsed(self.response, 'pages/product.html')
 
     def test_productpage_contains_correct_html(self):
-        self.assertContains(self.response, 'All Rights Reserved')
+        self.assertContains(self.response, 'Directory')
 
     def test_productpage_does_not_contain_incorrect_html(self):
         self.assertNotContains(
             self.response, 'Hi there! I should not be on the page.')
 
     def test_productpage_url_resolves_productpageview(self):
-        view = resolve('/product/')
+        view = resolve('/')
         self.assertEqual(
             view.func.__name__,
             ProductPageView.as_view().__name__

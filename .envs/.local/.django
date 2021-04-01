@@ -1,6 +1,6 @@
 DEBUG=True
 SECRET_KEY=_3j3@&fvzdf*4z00qp&iv8g@x*)rfygz4t-35_ri0llmk$qh)a
-DJANGO_ALLOWED_HOSTS=0.0.0.0
+DJANGO_ALLOWED_HOSTS=0.0.0.0 127.0.0.1 localhost
 SQL_ENGINE=django.db.backends.postgresql
 SQL_DATABASE=product_name_db
 SQL_USER=product_name_db_user
@@ -8,8 +8,8 @@ SQL_PASSWORD=product#name#db#user#password
 SQL_HOST=postgres
 SQL_PORT=5432
 
-PRODUCT_NAME=YourProjectName
-COMPANY_NAME=YourCompanyName
+PRODUCT_NAME=Directory
+COMPANY_NAME=DirectoryMakers
 
 WEBMASTER_NAME=Webmaster
 WEBMASTER_EMAIL=webmaster@test.infroid.com

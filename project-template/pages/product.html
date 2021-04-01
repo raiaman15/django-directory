@@ -54,7 +54,7 @@
       <nav class="main-nav float-right d-none d-lg-block">
         <ul>
           <li class="active"><a href="#intro">Home</a></li>
-          <li><a href="#about">Advanced Directory</a></li>
+          <li><a href="#about">Advanced Search</a></li>
           {% if user.is_authenticated %}
           <li><a href="{% url 'account_logout' %}">Logout</a></li>
           {% else %}
@@ -82,8 +82,16 @@
             {{PRODUCT_NAME}}<br>
             Tagline for <span>{{PRODUCT_NAME}}!</span>
           </h2>
-          <div>
-            <a href="#about" class="btn-get-started scrollto">Access Directory &#10513;</a>
+          <div style="text-align: center;">
+            <form action="#" method="post" role="form" class="contactForm">
+              <div class="form-group">
+                <input type="search" name="query" class="form-control" id="query"
+                  placeholder="Teacher's name or subject they teach..." data-rule="minlen:3"
+                  data-msg="Please enter at least 3 chars" />
+                <div class="validation"></div>
+              </div>
+              <input type="submit" class="btn-get-started" value="Find in Directory &#10513;">
+            </form>
           </div>
         </div>
 

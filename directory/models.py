@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator, validate_image_file_extension, validate_integer
 from django.db import models
 from django.urls import reverse
+from django_clamd.validators import validate_file_infection
 
 
 class Teacher(models.Model):
@@ -25,6 +26,7 @@ class Teacher(models.Model):
         'Profile Picture',
         upload_to='picture/',
         blank=True,
+        validators=[validate_file_infection],
         help_text='Teacher\'s picture (must match with picture in photo ID below) in .png or .jpg format. (Max 2 MB)'
     )
     email = models.EmailField(
@@ -102,14 +104,14 @@ class ImportTask(models.Model):
         'Records to Import',
         upload_to='record_csv/',
         blank=False,
-        validators=[FileExtensionValidator(allowed_extensions=['csv'])],
+        validators=[FileExtensionValidator(allowed_extensions=['csv']), validate_file_infection],
         help_text='The .csv file containing records of teachers.'
     )
     images_to_import = models.FileField(
         'Images to Import',
         upload_to='image_zip/',
         blank=False,
-        validators=[FileExtensionValidator(allowed_extensions=['zip'])],
+        validators=[FileExtensionValidator(allowed_extensions=['zip']), validate_file_infection],
         help_text='The .zip file containing images for teacher profiles.'
     )
     total_records = models.PositiveIntegerField(

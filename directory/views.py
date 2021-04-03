@@ -6,6 +6,11 @@ from django.views.generic import CreateView, DetailView
 from .models import ImportTask
 
 
+def run_import_task(task: ImportTask) -> None:
+    # Scan Image Zip file | Security
+    pass
+
+
 class ImportTaskCreateView(LoginRequiredMixin, CreateView):
     model = ImportTask
     fields = ['records_to_import', 'images_to_import']

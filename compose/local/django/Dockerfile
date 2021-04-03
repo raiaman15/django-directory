@@ -4,6 +4,9 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE 1
 
 RUN pip install --upgrade pip
+RUN apt update && apt -y upgrade
+RUN apt-get -y install clamav clamav-daemon
+RUN freshclam
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements /requirements

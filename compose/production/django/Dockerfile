@@ -3,6 +3,9 @@ FROM python:3
 ENV PYTHONUNBUFFERED=1
 
 RUN pip install --upgrade pip
+RUN apt update && apt -y upgrade
+RUN apt-get -y install clamav clamav-daemon
+RUN freshclam
 
 RUN addgroup --system django \
     && adduser --system --ingroup django django

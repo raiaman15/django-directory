@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_clamd',
 
     # Local
     'accounts',
@@ -152,6 +153,14 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Crispy Form Template
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# ClamAV config
+CLAMD_SOCKET = '/var/run/clamav/clamd.ctl'
+CLAMD_USE_TCP = False
+CLAMD_TCP_SOCKET = 3310
+CLAMD_TCP_ADDR = '127.0.0.1'
+# Todo: Configure in Production
+CLAMD_ENABLED = False
 
 # django-allauth config
 SITE_ID = 1

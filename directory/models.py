@@ -1,10 +1,12 @@
 from config.validators import validate_name, validate_phone_number, validate_room_number
 from django.contrib.auth import get_user_model
-from django.core.validators import validate_image_file_extension, validate_email, validate_integer
+from django.core.validators import FileExtensionValidator, validate_image_file_extension, validate_integer
 from django.db import models
+from django.urls import reverse
 
 
 class Teacher(models.Model):
+
     first_name = models.CharField(
         'First Name',
         max_length=26,
@@ -23,14 +25,12 @@ class Teacher(models.Model):
         'Profile Picture',
         upload_to='picture/',
         blank=True,
-        validators=[validate_image_file_extension],
         help_text='Teacher\'s picture (must match with picture in photo ID below) in .png or .jpg format. (Max 2 MB)'
     )
     email = models.EmailField(
         'Email Address',
         max_length=320,
-        validators=[validate_email],
-        blank=True,
+        blank=False,
         help_text='Teacher\'s e-mail address.'
     )
     phone_number = models.CharField(
@@ -45,7 +45,6 @@ class Teacher(models.Model):
         'Room Number',
         max_length=14,
         blank=False,
-        unique=True,
         validators=[validate_room_number],
         help_text='Your valid mobile number for OTP verification.'
     )
@@ -87,17 +86,52 @@ class Teacher(models.Model):
 
 
 class ImportTask(models.Model):
+
+    STATUS = (
+        ('P', 'Processing'),
+        ('S', 'Success'),
+        ('E', 'Error')
+    )
     importer = models.ForeignKey(
         get_user_model(),
         related_name='initiated_by',
-        blank=False
+        blank=False,
+        on_delete=models.DO_NOTHING
+    )
+    records_to_import = models.FileField(
+        'Records to Import',
+        upload_to='record_csv/',
+        blank=False,
+        validators=[FileExtensionValidator(allowed_extensions=['csv'])],
+        help_text='The .csv file containing records of teachers.'
+    )
+    images_to_import = models.FileField(
+        'Images to Import',
+        upload_to='image_zip/',
+        blank=False,
+        validators=[FileExtensionValidator(allowed_extensions=['zip'])],
+        help_text='The .zip file containing images for teacher profiles.'
     )
     total_records = models.PositiveIntegerField(
         'Total Records',
-        validators=[validate_integer],
+        default=0,
+        validators=[validate_integer]
     )
     processed_records = models.PositiveIntegerField(
         'Processed Records',
-        validators=[validate_integer],
+        default=0,
+        validators=[validate_integer]
+    )
+    status = models.CharField(
+        'Task Status',
+        max_length=1,
+        default='P',
+        choices=STATUS
     )
     log = models.TextField(max_length=10000)
+
+    def __str__(self):
+        return f'{self.importer} : {self.processed_records}/{self.total_records} : {self.status}'
+
+    def get_absolute_url(self):
+        return reverse('import_task_detail', args=[str(self.id)])

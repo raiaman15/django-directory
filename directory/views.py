@@ -1,7 +1,8 @@
 import numpy as np
+import os
 import pandas as pd
-import random
 import re
+import shutil
 import zipfile
 
 from django.conf import settings
@@ -10,9 +11,10 @@ from django.forms.models import BaseModelForm
 from django.http.response import HttpResponse
 from django.views.generic import CreateView, DetailView
 
-from .models import ImportTask
+from .models import Teacher, ImportTask
 
-TEMP_PATH = str(settings.BASE_DIR.joinpath('files-media').joinpath('temp'))
+TEMP_PATH = settings.BASE_DIR.joinpath('files-media').joinpath('temp')
+PICTURE_PATH = settings.BASE_DIR.joinpath('files-media').joinpath('picture')
 
 
 class ImportTaskCreateView(LoginRequiredMixin, CreateView):
@@ -26,22 +28,62 @@ class ImportTaskCreateView(LoginRequiredMixin, CreateView):
 
     @staticmethod
     def _import_record(r):
-        return 'Success' if bool(random.getrandbits(1)) else 'Failure'
+        status = 'Success'
+        try:
+            t = Teacher(
+                first_name=r['First Name'],
+                last_name=r['Last Name'],
+                email=r['Email Address'],
+                phone_number=r['Phone Number'],
+                room_number=r['Room Number']
+            )
+
+            if not pd.isna(r['Profile picture']):
+                # Move the picture from /temp/ folder to /picture/
+                source = str(TEMP_PATH.joinpath(r["Profile picture"]))
+                destination = str(PICTURE_PATH.joinpath(r["Profile picture"]))
+                shutil.move(source, destination)
+                t.picture = f'picture/{r["Profile picture"]}'
+
+            s = r['Subjects taught'].lower().strip().split(',')
+            if len(s) > 0:
+                t.subject_taught_1 = s[0]
+            if len(s) > 1:
+                t.subject_taught_2 = s[1]
+            if len(s) > 2:
+                t.subject_taught_3 = s[2]
+            if len(s) > 3:
+                t.subject_taught_4 = s[3]
+            if len(s) > 4:
+                t.subject_taught_5 = s[4]
+
+            t.save()
+
+        except Exception as e:
+            status = f'Failure: {e}'
+
+        return status
 
     def _run_import_task(self) -> None:
-        print(f'Rinning task: {str(self.object)}')
         # Scan uploaded files for security
         self._scan_file(self.object.images_to_import)
         self._scan_file(self.object.records_to_import)
 
         # Unzip Image Zip file to <media directory>/temp/
         with zipfile.ZipFile(self.object.images_to_import, 'r') as zip_ref:
-            zip_ref.extractall(TEMP_PATH)
+            zip_ref.extractall(str(TEMP_PATH))
 
-        # Scan individual image files in temp folder for security
-        pass
+        # Rename filename to lowercase for standardization
+        for file in os.listdir(str(TEMP_PATH)):
+            os.rename(str(TEMP_PATH.joinpath(file)), str(TEMP_PATH.joinpath(file.lower())))
+            # Scan individual image files in temp folder for security
+            self._scan_file(file)
 
         # Process CSV file, move image file per record to <media directory>/picture/
+        try:
+            os.makedirs(os.path.dirname(str(PICTURE_PATH)))
+        except OSError:
+            pass
         data = pd.read_csv(self.object.records_to_import)
 
         # Clean data
@@ -57,7 +99,10 @@ class ImportTaskCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
 
         # Remove all files from <media directory>/temp/ for storage
-        pass
+        try:
+            shutil.rmtree(str(TEMP_PATH))
+        except OSError:
+            os.remove(str(TEMP_PATH))
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         form.instance.importer = self.request.user

@@ -14,7 +14,7 @@ def validate_name(value):
 
 def validate_phone_number(value):
     """ Validates phone number - 10 digit UAE Phone Number """
-    Pattern = re.compile("(+971)?[0-9]{10}")
+    Pattern = re.compile("(+971)?-[0-9]{3}-[0-9]{3}-[0-9]{3}")
     if not Pattern.match(value):
         raise ValidationError(
             ('%(value)s is not a valid contact number. It should be in similar to +971XXXXXXXXXX.'),

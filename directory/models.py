@@ -1,3 +1,4 @@
+from django.db.models import indexes
 from config.validators import validate_name, validate_phone_number, validate_room_number
 from django.contrib.auth import get_user_model
 from django.core.validators import FileExtensionValidator, validate_image_file_extension, validate_integer
@@ -33,11 +34,12 @@ class Teacher(models.Model):
         'Email Address',
         max_length=320,
         blank=False,
+        unique=True,
         help_text='Teacher\'s e-mail address.'
     )
     phone_number = models.CharField(
         'Phone Number',
-        max_length=14,
+        max_length=16,
         blank=False,
         unique=True,
         validators=[validate_phone_number],
@@ -83,8 +85,18 @@ class Teacher(models.Model):
         max_length=255,
         validators=[validate_name],
         blank=True,
-        help_text='The fifth subjects taught by teacher.'
+        help_text='The fifth subjects taught by teacher.',
     )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['last_name', ]),
+            models.Index(fields=['subject_taught_1', ]),
+            models.Index(fields=['subject_taught_2', ]),
+            models.Index(fields=['subject_taught_3', ]),
+            models.Index(fields=['subject_taught_4', ]),
+            models.Index(fields=['subject_taught_5', ]),
+        ]
 
 
 class ImportTask(models.Model):

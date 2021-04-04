@@ -83,7 +83,7 @@ LOGGING = {
 # Truncate SQL queries to this many characters (None means no truncation)
 RUNSERVER_PLUS_PRINT_SQL_TRUNCATE = 1000
 # After how many seconds auto-reload should scan for updates in poller-mode
-RUNSERVERPLUS_POLLER_RELOADER_INTERVAL = 2
+RUNSERVERPLUS_POLLER_RELOADER_INTERVAL = 5
 # Werkzeug reloader type [auto, watchdog, or stat]
 RUNSERVERPLUS_POLLER_RELOADER_TYPE = 'auto'
 # Add extra files to watch

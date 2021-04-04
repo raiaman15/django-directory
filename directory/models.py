@@ -119,21 +119,16 @@ class ImportTask(models.Model):
         default=0,
         validators=[validate_integer]
     )
-    processed_records = models.PositiveIntegerField(
-        'Processed Records',
-        default=0,
-        validators=[validate_integer]
-    )
     status = models.CharField(
         'Task Status',
         max_length=1,
         default='P',
         choices=STATUS
     )
-    log = models.TextField(max_length=10000)
+    log = models.TextField(max_length=999999)
 
     def __str__(self):
-        return f'{self.importer} : {self.processed_records}/{self.total_records} : {self.status}'
+        return f'{self.importer} : {self.total_records} records : {self.status}'
 
     def get_absolute_url(self):
         return reverse('import_task_detail', args=[str(self.id)])

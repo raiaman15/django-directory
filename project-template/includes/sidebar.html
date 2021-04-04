@@ -12,7 +12,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="info">
-        <a class="d-block">Welcome {{user.email}}</a>
+        <a class="d-block">Welcome {{user.username}}</a>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="pages/widgets.html" class="nav-link">
+          <a href="{% url 'import_task_create' %}" class="nav-link">
             <i class="nav-icon fas fa-th"></i>
             <p>
               Widgets

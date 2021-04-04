@@ -52,50 +52,19 @@ class Teacher(models.Model):
         validators=[validate_room_number],
         help_text='Your valid mobile number for OTP verification.'
     )
-    subject_taught_1 = models.CharField(
-        'Subjects Taught - First',
-        max_length=255,
+    subject_taught = models.TextField(
+        'Subjects Taught',
+        max_length=1000,
         validators=[validate_name],
         blank=True,
-        help_text='The first subjects taught by teacher.'
+        help_text='All the subjects taught by teacher.'
     )
-    subject_taught_2 = models.CharField(
-        'Subjects Taught - Second',
-        max_length=255,
-        validators=[validate_name],
-        blank=True,
-        help_text='The second subjects taught by teacher.'
-    )
-    subject_taught_3 = models.CharField(
-        'Subjects Taught - Third',
-        max_length=255,
-        validators=[validate_name],
-        blank=True,
-        help_text='The third subjects taught by teacher.'
-    )
-    subject_taught_4 = models.CharField(
-        'Subjects Taught - Fourth',
-        max_length=255,
-        validators=[validate_name],
-        blank=True,
-        help_text='The fourth subjects taught by teacher.'
-    )
-    subject_taught_5 = models.CharField(
-        'Subjects Taught - Fifth',
-        max_length=255,
-        validators=[validate_name],
-        blank=True,
-        help_text='The fifth subjects taught by teacher.',
-    )
+    
 
     class Meta:
         indexes = [
             models.Index(fields=['last_name', ]),
-            models.Index(fields=['subject_taught_1', ]),
-            models.Index(fields=['subject_taught_2', ]),
-            models.Index(fields=['subject_taught_3', ]),
-            models.Index(fields=['subject_taught_4', ]),
-            models.Index(fields=['subject_taught_5', ]),
+            models.Index(fields=['subject_taught', ]),
         ]
 
 

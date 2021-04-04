@@ -47,18 +47,10 @@ class ImportTaskCreateView(LoginRequiredMixin, CreateView):
                 t.picture = f'picture/{r["Profile picture"]}'
 
             s = r['Subjects taught'].lower().strip().split(',')
-            if len(s) > 0:
-                t.subject_taught_1 = s[0]
-            if len(s) > 1:
-                t.subject_taught_2 = s[1]
-            if len(s) > 2:
-                t.subject_taught_3 = s[2]
-            if len(s) > 3:
-                t.subject_taught_4 = s[3]
-            if len(s) > 4:
-                t.subject_taught_5 = s[4]
+            t.subject_taught = ' | '.join(s)
 
             t.save()
+
         except IOError as io:
             status = f'Failure: Missing actual profile picture.'
         except Exception as e:
@@ -125,6 +117,14 @@ class ImportTaskDetailView(LoginRequiredMixin, DetailView):
 
 class TeacherListView(ListView):
     model = Teacher
+    fields = [
+        'last_name',
+        'subject_taught',
+        # 'subject_taught_2',
+        # 'subject_taught_3',
+        # 'subject_taught_4',
+        # 'subject_taught_5',
+    ]
     context_object_name = 'teachers'
     paginate_by = 100
     template_name = 'directory/teacher_list.html'
@@ -140,8 +140,11 @@ class TeacherSearchView(ListView):
     model = Teacher
     context_object_name = 'teachers'
     paginate_by = 100
-    template_name = 'directory/teacher_list.html'
+    template_name = 'directory/teacher_search.html'
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        return Teacher.objects.filter(Q(last_name__icontains=query))
+        if self.request.GET.get('q'):
+            query = self.request.GET.get('q')
+            return Teacher.objects.filter(Q(last_name__icontains=query) | Q(subject_taught__icontains=query))
+        else:
+            return Teacher.objects.all()

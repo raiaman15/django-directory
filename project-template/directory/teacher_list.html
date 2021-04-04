@@ -54,8 +54,10 @@
             <nav class="main-nav float-right d-none d-lg-block">
                 <ul>
                     <li><a href="{% url 'product_page' %}">Home</a></li>
-                    <li class="active"><a>Directory</a></li>
+                    <li><a href="{% url 'teacher_search' %}">Search</a></li>
+                    <li class="active"><a href="{% url 'teacher_list' %}">Directory</a></li>
                     {% if user.is_authenticated %}
+                    <li><a href="{% url 'import_task_create' %}">Import</a></li>
                     <li><a href="{% url 'account_logout' %}">Logout</a></li>
                     {% else %}
                     <li class="drop-down"><a style="cursor:pointer;">Login/Register</a>
@@ -75,11 +77,73 @@
     Intro Section
   ============================-->
     <section id="intro" class="clearfix">
-        <div class="container d-flex h-100">
+        <div class="container pt-5 pb-5">
             <div class="row justify-content-center align-self-center">
-                {%for teacher in teachers%}
-                {{teacher.first_name}} {{teacher.last_name}}
-                {%endfor%}
+                <div class="col-md-12 intro-info order-md-first order-last">
+                    <div class="card border-success">
+                        <div class="card-header bg-transparent border-success">
+                            <u>
+                                <h4 style="text-align: center;">Teacher Directory</h4>
+                            </u>
+                            <hr />
+                            <form method="GET">
+                                {{ filter.form.as_p }}
+                                <input type="submit" />
+                            </form>
+                        </div>
+                        <div class="card-body text-success">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Subjects Taught</th>
+                                        <th scope="col">Teacher Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for obj in filter.qs %}
+                                    <tr>
+                                        <td>{{obj.first_name}}</td>
+                                        <td>{{obj.last_name}}</td>
+                                        <td>{{obj.subject_taught}}</td>
+                                        <td>
+                                            <a href="{% url 'teacher_detail' obj.id %}">View Details &#10513;</a>
+                                        </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer bg-transparent border-success">
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if page_obj.has_previous %}
+                                    <a class="btn btn-sm btn-primary" href="?page=1">
+                                        &laquo; First
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="?page={{ page_obj.previous_page_number }}">
+                                        Previous
+                                    </a>
+                                    {% endif %}
+
+                                    <span class="current">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                                    </span>
+
+                                    {% if page_obj.has_next %}
+                                    <a class="btn btn-sm btn-primary" href="?page={{ page_obj.next_page_number }}">
+                                        Next
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="?page={{ page_obj.paginator.num_pages }}">
+                                        Last &raquo;
+                                    </a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section><!-- #intro -->
@@ -106,8 +170,6 @@
     <script src="{% static 'product/plugins/owlcarousel/owl.carousel.min.js' %}"></script>
     <script src="{% static 'product/plugins/isotope/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'product/plugins/lightbox/js/lightbox.min.js' %}"></script>
-    <!-- Contact Form JavaScript File -->
-    <script src="{% static 'product/contactform/contactform.js' %}"></script>
 
     <!-- Template Main Javascript File -->
     <script src="{% static 'product/js/main.js' %}"></script>

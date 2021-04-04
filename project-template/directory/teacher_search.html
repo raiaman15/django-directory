@@ -53,9 +53,11 @@
 
             <nav class="main-nav float-right d-none d-lg-block">
                 <ul>
-                    <li class="active"><a href="#intro">Home</a></li>
-                    <li><a href="#about">Advanced Search</a></li>
+                    <li><a href="{% url 'product_page' %}">Home</a></li>
+                    <li class="active"><a href="{% url 'teacher_search' %}">Search</a></li>
+                    <li><a href="{% url 'teacher_list' %}">Directory</a></li>
                     {% if user.is_authenticated %}
+                    <li><a href="{% url 'import_task_create' %}">Import</a></li>
                     <li><a href="{% url 'account_logout' %}">Logout</a></li>
                     {% else %}
                     <li class="drop-down"><a style="cursor:pointer;">Login/Register</a>
@@ -75,100 +77,78 @@
     Intro Section
   ============================-->
     <section id="intro" class="clearfix">
-        <!-- Custom tabs (Charts with tabs)-->
-        <div class="card bg-black elevation-2">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-globe-asia"></i>
-                </h3>
+        <div class="container pt-5 pb-5">
+            <div class="row justify-content-center align-self-center">
+                <div class="col-md-12 intro-info order-md-first order-last">
+                    <div class="card border-success">
+                        <div class="card-header bg-transparent border-success">
+                            <u>
+                                <h4 style="text-align: center;">Teacher Search</h4>
+                            </u>
+                            <br />
+                            <form>
+                                <div class="form-group">
+                                    <input type="search" name="q" class="form-control" id="q"
+                                        placeholder="Teacher's name or subject they teach..." data-rule="minlen:3"
+                                        data-msg="Please enter at least 3 chars" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-body text-success">
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Subjects Taught</th>
+                                        <th scope="col">Teacher Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for teacher in teachers%}
+                                    <tr>
+                                        <td>{{teacher.first_name}}</td>
+                                        <td>{{teacher.last_name}}</td>
+                                        <td>{{teacher.subject_taught}}</td>
+                                        <td>
+                                            <a href="{% url 'teacher_detail' teacher.id %}">View Details &#10513;</a>
+                                        </td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer bg-transparent border-success">
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if page_obj.has_previous %}
+                                    <a class="btn btn-sm btn-primary" href="?page=1">
+                                        &laquo; First
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="?page={{ page_obj.previous_page_number }}">
+                                        Previous
+                                    </a>
+                                    {% endif %}
 
-                <div class="card-tools">
-                    <!-- SEARCH FORM -->
-                    <form action="{% url 'pool_search_results' %}" class="form-inline ml-3">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar bg-black border" type="search"
-                                placeholder="Pool Search" aria-label="Pool Search" name="q">
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar bg-secondary" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
+                                    <span class="current">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                                    </span>
+
+                                    {% if page_obj.has_next %}
+                                    <a class="btn btn-sm btn-primary" href="?page={{ page_obj.next_page_number }}">
+                                        Next
+                                    </a>
+                                    <a class="btn btn-sm btn-primary" href="?page={{ page_obj.paginator.num_pages }}">
+                                        Last &raquo;
+                                    </a>
+                                    {% endif %}
+                                </span>
                             </div>
                         </div>
-                    </form>
-                </div>
-
-            </div><!-- /.card-header -->
-            <!-- Ongoing Live Class -->
-            <div class="card-body">
-                <div class="card-body table-responsive p-0">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>NAME</th>
-                                <th>SIZE</th>
-                                <th>FILLED</th>
-                                <th>INVESTMENT</th>
-                                <th>POOLMASTER</th>
-                                <th>JOIN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for pool in pool_list %}
-                            <tr>
-                                <td><a href="{% url 'pool_detail' pool.id %}">{{pool.name}}</a></td>
-                                <td>{{pool.size}}</td>
-                                <td>{{pool.members.count}}</td>
-                                <td>{{pool.investment|intcomma}}</td>
-                                <td>{{pool.master.first_name}} {{pool.master.last_name}}</td>
-                                <td>
-                                    {% if user not in pool.members %}
-                                    <form id="{{pool.id}}" method="post" action="{% url 'pool_join' %}">
-                                        {% csrf_token %}
-                                        <input class="d-none" name="pool" value="{{pool.id}}">
-                                        <input class="d-none" id="accept_reject" name="accept_reject" value="">
-                                        <input type="submit" class="btn btn-sm btn-success" onclick="joining()"
-                                            value="Join">
-                                    </form>
-                                    {% else %}
-                                    Joined <i class="fas fa-check-circle text-success"></i>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
-            </div><!-- /.card-body -->
-            <!-- Pagination -->
-            <div class="card-footer text-center">
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if page_obj.has_previous %}
-                        <a class="btn btn-sm btn-primary" href="?page=1">
-                            &laquo; First
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="?page={{ page_obj.previous_page_number }}">
-                            Previous
-                        </a>
-                        {% endif %}
-
-                        <span class="current">
-                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                        </span>
-
-                        {% if page_obj.has_next %}
-                        <a class="btn btn-sm btn-primary" href="?page={{ page_obj.next_page_number }}">
-                            Next
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="?page={{ page_obj.paginator.num_pages }}">
-                            Last &raquo;
-                        </a>
-                        {% endif %}
-                    </span>
+                    </div>
                 </div>
             </div>
-            <!-- /.card -->
+        </div>
     </section><!-- #intro -->
 
     <main id="main">
@@ -193,8 +173,6 @@
     <script src="{% static 'product/plugins/owlcarousel/owl.carousel.min.js' %}"></script>
     <script src="{% static 'product/plugins/isotope/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'product/plugins/lightbox/js/lightbox.min.js' %}"></script>
-    <!-- Contact Form JavaScript File -->
-    <script src="{% static 'product/contactform/contactform.js' %}"></script>
 
     <!-- Template Main Javascript File -->
     <script src="{% static 'product/js/main.js' %}"></script>

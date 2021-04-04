@@ -45,11 +45,14 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'django_clamd',
+    'django_filters',
 
     # Local
     'accounts',
     'upload',
-    'pages'
+    'pages',
+    'directory'
 ]
 
 MIDDLEWARE = [
@@ -152,9 +155,17 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # Crispy Form Template
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# ClamAV config
+CLAMD_SOCKET = '/var/run/clamav/clamd.ctl'
+CLAMD_USE_TCP = False
+CLAMD_TCP_SOCKET = 3310
+CLAMD_TCP_ADDR = '127.0.0.1'
+# Todo: Configure in Production
+CLAMD_ENABLED = False
+
 # django-allauth config
 SITE_ID = 1
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'import_task_create'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'product_page'
 ACCOUNT_SIGNUP_REDIRECT_URL = 'account_login'
 AUTHENTICATION_BACKENDS = (
@@ -169,7 +180,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_EMAIL_VERIFICATION = True

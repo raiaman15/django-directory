@@ -1,4 +1,6 @@
-## DJANGO-STARTER
+## TEACHER DIRECTORY DJANGO APPLICATION
+
+Please ensure that docker and docker-compose are operational on your system.
 
 ### DEVELOPMENT SETUP
 **Deleting Development Setup**

@@ -16,7 +16,7 @@ class CompanyPageTests(SimpleTestCase):
         self.assertTemplateUsed(self.response, 'pages/company.html')
 
     def test_companypage_contains_correct_html(self):
-        self.assertContains(self.response, 'Company Details Page')
+        self.assertContains(self.response, 'DirectoryMakers')
 
     def test_companypage_does_not_contain_incorrect_html(self):
         self.assertNotContains(

@@ -28,6 +28,7 @@ urlpatterns = [
 
     # Local apps
     path('', include('pages.urls')),
+    path('directory/', include('directory.urls')),
 
     # TODO: Production: Remove
     path("upload/", image_upload, name="upload"),

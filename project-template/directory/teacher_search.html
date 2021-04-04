@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{PRODUCT_NAME}}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="{% static 'favicon.ico' %}" rel="icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="{% static 'product/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="{% static 'product/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="{% static 'product/css/style.css' %}" rel="stylesheet">
+
+    <!-- =======================================================
+    Theme Name: Rapid
+    Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+    <!--==========================
+  Header
+  ============================-->
+    <header id="header">
+        <div class="container">
+
+            <div class="logo float-left">
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <h1 class="text-light"><a href="#intro" class="scrollto"><span>Rapid</span></a></h1> -->
+                <a href="#header" class="scrollto"><img src="{% static 'logo.png' %}" alt="" class="img-fluid"></a>
+            </div>
+
+            <nav class="main-nav float-right d-none d-lg-block">
+                <ul>
+                    <li class="active"><a href="#intro">Home</a></li>
+                    <li><a href="#about">Advanced Search</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    {% else %}
+                    <li class="drop-down"><a style="cursor:pointer;">Login/Register</a>
+                        <ul>
+                            <li><a href="{% url 'account_login' %}">Login</a></li>
+                            <li><a href="{% url 'account_signup' %}">Register</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav><!-- .main-nav -->
+
+        </div>
+    </header><!-- #header -->
+
+    <!--==========================
+    Intro Section
+  ============================-->
+    <section id="intro" class="clearfix">
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="card bg-black elevation-2">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-globe-asia"></i>
+                </h3>
+
+                <div class="card-tools">
+                    <!-- SEARCH FORM -->
+                    <form action="{% url 'pool_search_results' %}" class="form-inline ml-3">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar bg-black border" type="search"
+                                placeholder="Pool Search" aria-label="Pool Search" name="q">
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar bg-secondary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div><!-- /.card-header -->
+            <!-- Ongoing Live Class -->
+            <div class="card-body">
+                <div class="card-body table-responsive p-0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>SIZE</th>
+                                <th>FILLED</th>
+                                <th>INVESTMENT</th>
+                                <th>POOLMASTER</th>
+                                <th>JOIN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pool in pool_list %}
+                            <tr>
+                                <td><a href="{% url 'pool_detail' pool.id %}">{{pool.name}}</a></td>
+                                <td>{{pool.size}}</td>
+                                <td>{{pool.members.count}}</td>
+                                <td>{{pool.investment|intcomma}}</td>
+                                <td>{{pool.master.first_name}} {{pool.master.last_name}}</td>
+                                <td>
+                                    {% if user not in pool.members %}
+                                    <form id="{{pool.id}}" method="post" action="{% url 'pool_join' %}">
+                                        {% csrf_token %}
+                                        <input class="d-none" name="pool" value="{{pool.id}}">
+                                        <input class="d-none" id="accept_reject" name="accept_reject" value="">
+                                        <input type="submit" class="btn btn-sm btn-success" onclick="joining()"
+                                            value="Join">
+                                    </form>
+                                    {% else %}
+                                    Joined <i class="fas fa-check-circle text-success"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div><!-- /.card-body -->
+            <!-- Pagination -->
+            <div class="card-footer text-center">
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                        <a class="btn btn-sm btn-primary" href="?page=1">
+                            &laquo; First
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="?page={{ page_obj.previous_page_number }}">
+                            Previous
+                        </a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                        </span>
+
+                        {% if page_obj.has_next %}
+                        <a class="btn btn-sm btn-primary" href="?page={{ page_obj.next_page_number }}">
+                            Next
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="?page={{ page_obj.paginator.num_pages }}">
+                            Last &raquo;
+                        </a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <!-- /.card -->
+    </section><!-- #intro -->
+
+    <main id="main">
+
+    </main>
+
+
+
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    <!-- Uncomment below i you want to use a preloader -->
+    <!-- <div id="preloader"></div> -->
+
+    <!-- JavaScript Libraries -->
+    <script src="{% static 'product/plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'product/plugins/jquery/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'product/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'product/plugins/easing/easing.min.js' %}"></script>
+    <script src="{% static 'product/plugins/mobile-nav/mobile-nav.js' %}"></script>
+    <script src="{% static 'product/plugins/wow/wow.min.js' %}"></script>
+    <script src="{% static 'product/plugins/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'product/plugins/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'product/plugins/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'product/plugins/isotope/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'product/plugins/lightbox/js/lightbox.min.js' %}"></script>
+    <!-- Contact Form JavaScript File -->
+    <script src="{% static 'product/contactform/contactform.js' %}"></script>
+
+    <!-- Template Main Javascript File -->
+    <script src="{% static 'product/js/main.js' %}"></script>
+
+</body>
+
+</html>

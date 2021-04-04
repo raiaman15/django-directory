@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{PRODUCT_NAME}}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicons -->
+    <link href="{% static 'favicon.ico' %}" rel="icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+        rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="{% static 'product/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="{% static 'product/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'product/plugins/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="{% static 'product/css/style.css' %}" rel="stylesheet">
+
+    <!-- =======================================================
+    Theme Name: Rapid
+    Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+    <!--==========================
+  Header
+  ============================-->
+    <header id="header">
+        <div class="container">
+
+            <div class="logo float-left">
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <h1 class="text-light"><a href="#intro" class="scrollto"><span>Rapid</span></a></h1> -->
+                <a href="#header" class="scrollto"><img src="{% static 'logo.png' %}" alt="" class="img-fluid"></a>
+            </div>
+
+            <nav class="main-nav float-right d-none d-lg-block">
+                <ul>
+                    <li><a href="{% url 'product_page' %}">Home</a></li>
+                    <li class="active"><a>Directory</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    {% else %}
+                    <li class="drop-down"><a style="cursor:pointer;">Login/Register</a>
+                        <ul>
+                            <li><a href="{% url 'account_login' %}">Login</a></li>
+                            <li><a href="{% url 'account_signup' %}">Register</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav><!-- .main-nav -->
+
+        </div>
+    </header><!-- #header -->
+
+    <!--==========================
+    Intro Section
+  ============================-->
+    <section id="intro" class="clearfix">
+        <div class="container d-flex h-100">
+            <div class="row justify-content-center align-self-center">
+                {%for teacher in teachers%}
+                {{teacher.first_name}} {{teacher.last_name}}
+                {%endfor%}
+            </div>
+        </div>
+    </section><!-- #intro -->
+
+    <main id="main">
+
+    </main>
+
+
+
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    <!-- Uncomment below i you want to use a preloader -->
+    <!-- <div id="preloader"></div> -->
+
+    <!-- JavaScript Libraries -->
+    <script src="{% static 'product/plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'product/plugins/jquery/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'product/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'product/plugins/easing/easing.min.js' %}"></script>
+    <script src="{% static 'product/plugins/mobile-nav/mobile-nav.js' %}"></script>
+    <script src="{% static 'product/plugins/wow/wow.min.js' %}"></script>
+    <script src="{% static 'product/plugins/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'product/plugins/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'product/plugins/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'product/plugins/isotope/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'product/plugins/lightbox/js/lightbox.min.js' %}"></script>
+    <!-- Contact Form JavaScript File -->
+    <script src="{% static 'product/contactform/contactform.js' %}"></script>
+
+    <!-- Template Main Javascript File -->
+    <script src="{% static 'product/js/main.js' %}"></script>
+
+</body>
+
+</html>

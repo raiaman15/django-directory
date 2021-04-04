@@ -7,9 +7,10 @@ import zipfile
 
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.forms.models import BaseModelForm
 from django.http.response import HttpResponse
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, DetailView, ListView
 
 from .models import Teacher, ImportTask
 
@@ -20,7 +21,7 @@ PICTURE_PATH = settings.BASE_DIR.joinpath('files-media').joinpath('picture')
 class ImportTaskCreateView(LoginRequiredMixin, CreateView):
     model = ImportTask
     fields = ['records_to_import', 'images_to_import']
-    template_name = 'directory/import_task_create_view.html'
+    template_name = 'directory/import_task_create.html'
 
     @staticmethod
     def _scan_file(f):
@@ -58,7 +59,8 @@ class ImportTaskCreateView(LoginRequiredMixin, CreateView):
                 t.subject_taught_5 = s[4]
 
             t.save()
-
+        except IOError as io:
+            status = f'Failure: Missing actual profile picture.'
         except Exception as e:
             status = f'Failure: {e}'
 
@@ -92,7 +94,7 @@ class ImportTaskCreateView(LoginRequiredMixin, CreateView):
         data.dropna(axis=0, how='all', inplace=True)
         self.object.total_records = data.shape[0]
         data['Import Status'] = data.apply(lambda r: self._import_record(r), axis=1)
-        self.object.status = 'E' if 'Failure' in data['Import Status'] else 'S'
+        self.object.status = 'E' if data['Import Status'].str.contains('Failure', regex=False).any() else 'S'
 
         # Save Task processing log
         self.object.log = data.to_html()
@@ -118,4 +120,28 @@ class ImportTaskDetailView(LoginRequiredMixin, DetailView):
     model = ImportTask
     fields = ['total_records', 'status', 'log']
     context_object_name = 'import_task'
-    template_name = 'directory/import_task_detail_view.html'
+    template_name = 'directory/import_task_detail.html'
+
+
+class TeacherListView(ListView):
+    model = Teacher
+    context_object_name = 'teachers'
+    paginate_by = 100
+    template_name = 'directory/teacher_list.html'
+
+
+class TeacherDetailView(DetailView):
+    model = Teacher
+    context_object_name = 'teacher'
+    template_name = 'directory/teacher_detail.html'
+
+
+class TeacherSearchView(ListView):
+    model = Teacher
+    context_object_name = 'teachers'
+    paginate_by = 100
+    template_name = 'directory/teacher_list.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Teacher.objects.filter(Q(last_name__icontains=query))

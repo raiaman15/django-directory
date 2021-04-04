@@ -53,8 +53,8 @@
 
       <nav class="main-nav float-right d-none d-lg-block">
         <ul>
-          <li class="active"><a href="#intro">Home</a></li>
-          <li><a href="#about">Advanced Search</a></li>
+          <li class="active"><a>Home</a></li>
+          <li><a href="{% url 'teacher_list' %}">Directory</a></li>
           {% if user.is_authenticated %}
           <li><a href="{% url 'account_logout' %}">Logout</a></li>
           {% else %}

@@ -3,7 +3,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block title %} Import Task Details - Status {% endblock %}
+{% block title %} Import Task Details{% endblock %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini {% endblock body_class %}
@@ -21,12 +21,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Import Task Details - Status</h1>
+                    <h1 class="m-0">Import Task Details</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{% url 'product_page' %}">Home</a></li>
-                        <li class="breadcrumb-item active">Import Task Details - Status</li>
+                        <li class="breadcrumb-item"><a href="{% url 'import_task_create' %}">Import Task</a></li>
+                        <li class="breadcrumb-item active">Import Task Details</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -44,6 +44,7 @@
                     <b>Task Reference:</b> <i>{{import_task}}</i>
                     <br />
                     <br />
+                    <b>Task Log:</b>
                     {{import_task.log | safe}}
                 </section>
                 <!-- /.Left col -->
